@@ -1,0 +1,54 @@
+2024-09-06 03:10:58,104 - INFO - Program started.
+2024-09-06 03:10:58,799 - INFO - Starting NAT listening management...
+2024-09-06 03:11:17,835 - INFO - Establishing SSH connection to 11.11.11.2...
+2024-09-06 03:11:17,836 - INFO - Establishing SSH connection to 11.11.11.2...
+2024-09-06 03:11:17,869 - INFO - Connected (version 2.0, client Cisco-1.25)
+2024-09-06 03:11:18,205 - INFO - Auth banner: b"\r\n**************************************************************************\r\n* IOSv is strictly limited to use for evaluation, demonstration and IOS  *\r\n* education. IOSv is provided as-is and is not supported by Cisco's      *\r\n* Technical Advisory Center. Any use or disclosure, in whole or in part, *\r\n* of the IOSv Software or Documentation to any third party for any       *\r\n* purposes is expressly prohibited except as otherwise authorized by     *\r\n* Cisco in writing.                                                      *\r\n**************************************************************************"
+2024-09-06 03:11:18,216 - INFO - Authentication (publickey) successful!
+2024-09-06 03:11:18,216 - INFO - SSH connection established to 11.11.11.2.
+2024-09-06 03:11:18,236 - INFO - Shell session opened.
+2024-09-06 03:11:19,237 - INFO - Starting packet capture on 11.11.11.2 (g0/0)...
+2024-09-06 03:11:19,237 - INFO - Sending command: monitor capture buffer CAPTURE_BUFFER size 10000 circular
+2024-09-06 03:11:20,239 - INFO - Command output: monitor capture buffer CAPTURE_BUFFER size 10000 circular
+ToISP_Router#
+2024-09-06 03:11:20,239 - INFO - Sending command: monitor capture point ip cef CAPTURE_POINT g0/0 both
+2024-09-06 03:11:21,240 - INFO - Command output: monitor capture point ip cef CAPTURE_POINT g0/0 both
+Name already in use
+
+ToISP_Router#
+2024-09-06 03:11:21,240 - INFO - Sending command: monitor capture point associate CAPTURE_POINT CAPTURE_BUFFER
+2024-09-06 03:11:22,241 - INFO - Command output: monitor capture point associate CAPTURE_POINT CAPTURE_BUFFER
+Capture Point CAPTURE_POINT is already associated with a capture buffer
+
+ToISP_Router#
+2024-09-06 03:11:22,242 - INFO - Sending command: monitor capture point start CAPTURE_POINT
+2024-09-06 03:11:23,243 - INFO - Command output: monitor capture point start CAPTURE_POINT
+ToISP_Router#
+2024-09-06 03:11:23,243 - INFO - Packet capture started on 11.11.11.2 (g0/0).
+2024-09-06 03:11:23,243 - INFO - Packet capture active on 11.11.11.2... Press Ctrl+C to stop.
+2024-09-06 03:11:23,243 - INFO - Sending command: show monitor capture buffer CAPTURE_BUFFER
+2024-09-06 03:11:24,244 - INFO - Command output: show monitor capture buffer CAPTURE_BUFFER
+ToISP_Router#
+2024-09-06 03:11:27,247 - INFO - Sending command: show monitor capture buffer CAPTURE_BUFFER
+2024-09-06 03:11:28,249 - INFO - Command output: show monitor capture buffer CAPTURE_BUFFER
+ToISP_Router#
+2024-09-06 03:11:31,250 - INFO - Sending command: show monitor capture buffer CAPTURE_BUFFER
+2024-09-06 03:11:32,251 - INFO - Command output: show monitor capture buffer CAPTURE_BUFFER
+ToISP_Router#
+2024-09-06 03:11:34,174 - INFO - Stopping the packet capture manually...
+2024-09-06 03:11:34,174 - INFO - Sending command: monitor capture point stop CAPTURE_POINT
+2024-09-06 03:11:35,175 - INFO - Command output: monitor capture point stop CAPTURE_POINT
+ToISP_Router#
+2024-09-06 03:11:35,175 - INFO - Sending command: monitor capture point stop CAPTURE_POINT
+2024-09-06 03:11:36,177 - INFO - Command output: monitor capture point stop CAPTURE_POINT
+Capture point CAPTURE_POINT is already inactive
+
+ToISP_Router#
+2024-09-06 03:11:36,177 - INFO - Sending command: monitor capture buffer CAPTURE_BUFFER clear
+2024-09-06 03:11:37,178 - INFO - Command output: monitor capture buffer CAPTURE_BUFFER clear
+ToISP_Router#
+2024-09-06 03:11:37,178 - INFO - Closing SSH connection.
+2024-09-06 03:11:37,178 - INFO - SSH connection closed.
+2024-09-06 03:11:37,178 - INFO - SSH connection closed.
+2024-09-06 03:11:37,178 - INFO - NAT listening management completed.
+2024-09-06 03:11:38,602 - INFO - Program exited by user.

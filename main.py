@@ -1,11 +1,19 @@
+import os
 import logging
 from acl_management import manage_acl
 from firewall_management import manage_firewall
-from aaa_management import manage_aaa
+from management_aaa import manage_aaa
+from listen import manage_listen
 
 from logs import setup_logging
 
+LOG_FILE_PATH = 'logs/security_automation.log'
+
 def main():
+    if os.path.exists(LOG_FILE_PATH):
+        os.remove(LOG_FILE_PATH)
+        print(f"Deleted {LOG_FILE_PATH}.")
+
     setup_logging()
     logging.info("Program started.")
 
@@ -25,7 +33,7 @@ def main():
         elif choice == '3':
             manage_aaa()
         elif choice == '4':
-            listen_nat_traffic()
+            manage_listen()
         elif choice == '5':
             logging.info("Program exited by user.")
             print("Exiting the program.")

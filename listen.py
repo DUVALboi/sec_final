@@ -1,31 +1,58 @@
 import logging
-import socket
+import time
+from ssh_connection import SSHConnection
 
-def listen_on_nat_interface(nat_ip, nat_port=80):
+def start_packet_capture(router_ip, router_username, key_file):
+    commands = [
+        "monitor capture buffer CAPTURE_BUFFER size 10000 circular",
+        "monitor capture point ip cef CAPTURE_POINT g0/0 both",
+        "monitor capture point associate CAPTURE_POINT CAPTURE_BUFFER",
+        "monitor capture point start CAPTURE_POINT"
+    ]
+    
     try:
-        logging.info(f"Listening on NAT interface {nat_ip}:{nat_port}...")
+        # Establish SSH connection
+        logging.info(f"Establishing SSH connection to {router_ip}...")
+        ssh_conn = SSHConnection(router_ip, router_username, key_file)
+        ssh_conn.establish_ssh_connection()
 
-        # Create a raw socket to listen to all traffic on the specified NAT interface
-        sock = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_TCP)
-        sock.bind((nat_ip, nat_port))
+        # Execute the capture commands
+        logging.info(f"Starting packet capture on {router_ip} (g0/0)...")
+        ssh_conn.execute_commands(commands)
+        logging.info(f"Packet capture started on {router_ip} (g0/0).")
 
-        logging.info(f"Listening for traffic on {nat_ip}:{nat_port}")
-
+        # Keep capturing and displaying the packets using show command
+        logging.info(f"Packet capture active on {router_ip}... Press Ctrl+C to stop.")
         while True:
-            packet, addr = sock.recvfrom(65535)
-            logging.info(f"Packet received from {addr}: {packet}")
+            # Using show monitor capture to display captured packets
+            show_command = ["show monitor capture buffer CAPTURE_BUFFER"]
+            ssh_conn.execute_commands(show_command)
+            time.sleep(5)  # Sleep for a few seconds before fetching the next capture
 
     except KeyboardInterrupt:
-        logging.info("Stopping the NAT interface listener.")
+        logging.info("Stopping the packet capture manually...")
+        ssh_conn.execute_commands([
+            "monitor capture point stop CAPTURE_POINT"
+        ])
     except Exception as e:
-        logging.error(f"An error occurred: {e}")
+        logging.error(f"An error occurred while capturing packets on {router_ip}: {e}")
     finally:
-        sock.close()
-        logging.info("Socket closed.")
+        # Stop the capture and clear the buffer
+        stop_capture_commands = [
+            "monitor capture point stop CAPTURE_POINT",
+            "monitor capture buffer CAPTURE_BUFFER clear"
+        ]
+        ssh_conn.execute_commands(stop_capture_commands)
+
+        # Close the SSH connection
+        ssh_conn.close_connection()
+        logging.info("SSH connection closed.")
 
 def manage_listen():
     logging.info("Starting NAT listening management...")
-    nat_ip = input("Enter the NAT interface IP to listen on: ")
-    nat_port = int(input("Enter the NAT interface port to listen on (default 80): ") or 80)
-    listen_on_nat_interface(nat_ip, nat_port)
+    router_ip = input("Enter the ToISP router IP: ")
+    router_username = input("Enter the router username: ")
+    key_file = input("Enter the SSH private key file path: ")
+    start_packet_capture(router_ip, router_username, key_file)
     logging.info("NAT listening management completed.")
+
